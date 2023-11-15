@@ -1,0 +1,10 @@
+.fectured-item {
+    background-image: url(../../../../assets/home/featured.jpg);
+    background-repeat: no-repeat;
+    background-size: cover; 
+    background-position: center; 
+}
+.text-shadow{
+    text-shadow: 4px 4px 6px  red;
+
+}
