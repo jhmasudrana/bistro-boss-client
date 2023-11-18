@@ -12,8 +12,8 @@ const Home = () => {
         <div>
              <Helmet>
                 <title>Bistro Boss | Menu</title>                
-            </Helmet>
-        <Banner></Banner>
+            </Helmet>           
+        <Banner></Banner>        
         <Category></Category>
         <BistroBoss></BistroBoss>
         <PopularMenu></PopularMenu>

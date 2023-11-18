@@ -3,31 +3,42 @@ import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../Providers/AuthPprovider";
+import signupimg from '../../../assets/others/authentication2.png'
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
+import useAxiosPublic from "../../../hooks/useAxiosPublic";
+import SocialLogin from "../../../Components/SocialLogin/SocialLogin";
 
 const SignUp = () => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
     const { createUser, updateUserprofile } = useContext(AuthContext);
     const navigate = useNavigate();
+    const axiosPublic = useAxiosPublic()
+
 
     const onSubmit = (data) => {
-        console.log(data)
         createUser(data.email, data.password)
             .then(result => {
                 const loggedUser = result.user;
                 console.log(loggedUser);
-                updateUserprofile(data.name, data.photoURL)                    
-                        console.log('user profile update ')
-                        reset()
+                updateUserprofile(data.name, data.photoURL)
+                console.log('user profile update ')
+                const userInfo = {
+                    name: data.name,
+                    email: data.email
+                }
+                axiosPublic.post('/users', userInfo)
+                    .then(res => {
+                        console.log('user addd to the database')
+                        if (res.data.insertedId)
+                            reset()
                         Swal.fire({
                             title: 'Good job!',
                             text: 'You clicked the button!',
                             icon: 'success'
                         });
                         navigate('/')
-
-                   
+                    })
             })
 
     };
@@ -39,12 +50,7 @@ const SignUp = () => {
             <div className="hero min-h-screen bg-base-200">
                 <div className="hero-content flex-col md:flex-row-reverse">
                     <div className="text-center md:w-1/2 lg:text-left">
-                        <h1 className="text-5xl font-bold">Sign Up Now!</h1>
-                        <p className="py-6">
-                            Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
-                            excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a
-                            id nisi.
-                        </p>
+                        <img src={signupimg} alt="" />
                     </div>
                     <div className="card md:w-1/2  max-w-sm shadow-2xl bg-base-100">
                         <form onSubmit={handleSubmit(onSubmit)} className="card-body">
@@ -134,6 +140,7 @@ const SignUp = () => {
                                 Already have an account? <Link className="text-pink-700" to="/login">Go to Login</Link>
                             </small>
                         </p>
+                        <SocialLogin></SocialLogin>
                     </div>
                 </div>
             </div>
