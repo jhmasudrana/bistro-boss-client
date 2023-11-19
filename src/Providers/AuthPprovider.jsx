@@ -58,7 +58,7 @@ const AuthPprovider = ({ children }) => {
         return () => {
             return unsubscribe();
         };
-    }, []);
+    }, [axiosSecure]);
 
     const authInfo = {
         user,
